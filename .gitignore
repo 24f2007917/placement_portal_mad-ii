@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+*.egg-info/
+
+# Flask
+instance/
+*.db
+*.sqlite3
+
+# Env / secrets
+.env
+.flaskenv
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Uploads (keep folders, ignore contents)
+backend/uploads/resumes/*
+!backend/uploads/resumes/.gitkeep
+backend/uploads/exports/*
+!backend/uploads/exports/.gitkeep
+
+# Node (if you ever add frontend tooling)
+node_modules/
+
+# OS/editor
+.DS_Store
+.vscode/
