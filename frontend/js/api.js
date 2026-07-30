@@ -1,0 +1,14 @@
+const API_BASE = "http://127.0.0.1:5000/api";
+
+async function apiPost(path, data) {
+  const res = await fetch(API_BASE + path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  const body = await res.json();
+  if (!res.ok) {
+    throw new Error(body.error || "Something went wrong");
+  }
+  return body;
+}
