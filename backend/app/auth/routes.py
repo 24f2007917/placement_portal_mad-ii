@@ -46,5 +46,8 @@ def login():
     if not user or not check_password_hash(user.password_hash, password):
         return jsonify({"error": "invalid credentials"}), 401
 
+    if not user.is_active:
+        return jsonify({"error": "account has been blacklisted/deactivated"}), 403
+
     token = create_access_token(identity=str(user.id), additional_claims={"role": user.role, "name": user.name})
     return jsonify({"access_token": token, "role": user.role, "name": user.name}), 200

@@ -11,8 +11,12 @@ def create_app():
     cors.init_app(app)
 
     from app import models
+
     from app.auth.routes import auth_bp
+    from app.admin.routes import admin_bp
+
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
+    app.register_blueprint(admin_bp, url_prefix="/api/admin")
 
     @app.route("/")
     def home():
