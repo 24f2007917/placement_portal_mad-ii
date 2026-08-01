@@ -13,10 +13,43 @@
       <button class="btn btn-sm btn-outline-light ms-2" onclick="logout()">Logout</button>
     </div>
   </nav>
+
   <div class="container mt-4">
-    <h4>Welcome, Admin</h4>
-    <p>Admin dashboard content will go here in Milestone 3.</p>
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item"><a class="nav-link active" href="#" onclick="showTab('overview')">Overview</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showTab('companies')">Companies</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showTab('students')">Students</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showTab('jobs')">Job Postings</a></li>
+    </ul>
+
+    <div id="overview" class="tab-pane">
+      <div class="row g-3" id="statsRow"></div>
+    </div>
+
+    <div id="companies" class="tab-pane d-none">
+      <table class="table bg-white">
+        <thead><tr><th>Company</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="companiesTable"></tbody>
+      </table>
+    </div>
+
+    <div id="students" class="tab-pane d-none">
+      <table class="table bg-white">
+        <thead><tr><th>Name</th><th>Email</th><th>Branch</th><th>CGPA</th></tr></thead>
+        <tbody id="studentsTable"></tbody>
+      </table>
+    </div>
+
+    <div id="jobs" class="tab-pane d-none">
+      <table class="table bg-white">
+        <thead><tr><th>Title</th><th>Company</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="jobsTable"></tbody>
+      </table>
+    </div>
   </div>
+
+  <script src="js/api.js"></script>
   <script src="js/auth-guard.js"></script>
+  <script src="js/admin.js"></script>
 </body>
 </html>

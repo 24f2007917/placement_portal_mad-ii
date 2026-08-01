@@ -12,3 +12,28 @@ async function apiPost(path, data) {
   }
   return body;
 }
+
+async function apiAuthGet(path) {
+  const token = localStorage.getItem("token");
+  const res = await fetch(API_BASE + path, {
+    headers: { Authorization: "Bearer " + token },
+  });
+  const body = await res.json();
+  if (!res.ok) {
+    throw new Error(body.error || "Something went wrong");
+  }
+  return body;
+}
+
+async function apiAuthPost(path) {
+  const token = localStorage.getItem("token");
+  const res = await fetch(API_BASE + path, {
+    method: "POST",
+    headers: { Authorization: "Bearer " + token },
+  });
+  const body = await res.json();
+  if (!res.ok) {
+    throw new Error(body.error || "Something went wrong");
+  }
+  return body;
+}
