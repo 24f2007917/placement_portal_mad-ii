@@ -118,3 +118,43 @@ def activate_user(user_id):
     user.is_active = True
     db.session.commit()
     return jsonify({"message": "user activated", "user_id": user.id})
+
+
+@admin_bp.route("/job-positions", methods=["GET"])
+@role_required("admin")
+def list_job_positions():
+    status = request.args.get("status")
+    query = JobPosition.query
+    if status:
+        query = query.filter_by(status=status)
+
+    jobs = query.all()
+    result = []
+    for j in jobs:
+        result.append({
+            "id": j.id,
+            "title": j.title,
+            "company_name": j.company.company_name,
+            "salary": j.salary,
+            "application_deadline": j.application_deadline.isoformat(),
+            "status": j.status,
+        })
+    return jsonify(result)
+
+
+@admin_bp.route("/job-positions/<int:job_id>/approve", methods=["POST"])
+@role_required("admin")
+def approve_job(job_id):
+    job = JobPosition.query.get_or_404(job_id)
+    job.status = "approved"
+    db.session.commit()
+    return jsonify({"message": "job position approved", "job_id": job.id})
+
+
+@admin_bp.route("/job-positions/<int:job_id>/reject", methods=["POST"])
+@role_required("admin")
+def reject_job(job_id):
+    job = JobPosition.query.get_or_404(job_id)
+    job.status = "rejected"
+    db.session.commit()
+    return jsonify({"message": "job position rejected", "job_id": job.id})
