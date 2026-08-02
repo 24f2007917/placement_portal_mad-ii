@@ -37,3 +37,31 @@ async function apiAuthPost(path) {
   }
   return body;
 }
+
+async function apiAuthPut(path, data) {
+  const token = localStorage.getItem("token");
+  const res = await fetch(API_BASE + path, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+    body: JSON.stringify(data),
+  });
+  const body = await res.json();
+  if (!res.ok) {
+    throw new Error(body.error || "Something went wrong");
+  }
+  return body;
+}
+
+async function apiAuthPostBody(path, data) {
+  const token = localStorage.getItem("token");
+  const res = await fetch(API_BASE + path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+    body: JSON.stringify(data),
+  });
+  const body = await res.json();
+  if (!res.ok) {
+    throw new Error(body.error || "Something went wrong");
+  }
+  return body;
+}

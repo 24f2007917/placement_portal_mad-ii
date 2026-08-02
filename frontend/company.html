@@ -13,10 +13,56 @@
       <button class="btn btn-sm btn-outline-light ms-2" onclick="logout()">Logout</button>
     </div>
   </nav>
+
   <div class="container mt-4">
-    <h4>Welcome, Company</h4>
-    <p>Company dashboard content will go here in Milestone 4.</p>
+    <div id="approvalBanner"></div>
+
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item"><a class="nav-link active" href="#" onclick="showTab('overview')">Overview</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showTab('profile')">Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showTab('postJob')">Post a Job</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showTab('myJobs')">My Job Postings</a></li>
+    </ul>
+
+    <div id="overview" class="tab-pane">
+      <div class="row g-3" id="statsRow"></div>
+    </div>
+
+    <div id="profile" class="tab-pane d-none">
+      <div class="card p-4" style="max-width:500px;">
+        <div class="mb-3"><label class="form-label">Company Name</label><input id="pf_name" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">Industry</label><input id="pf_industry" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">Location</label><input id="pf_location" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">HR Contact</label><input id="pf_contact" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">Website</label><input id="pf_website" class="form-control"/></div>
+        <button class="btn btn-primary" onclick="saveProfile()">Save</button>
+        <div id="profileMsg" class="mt-2"></div>
+      </div>
+    </div>
+
+    <div id="postJob" class="tab-pane d-none">
+      <div class="card p-4" style="max-width:500px;">
+        <div class="mb-3"><label class="form-label">Job Title</label><input id="job_title" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">Description</label><textarea id="job_desc" class="form-control"></textarea></div>
+        <div class="mb-3"><label class="form-label">Skills Required</label><input id="job_skills" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">Salary</label><input id="job_salary" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">Application Deadline</label><input id="job_deadline" type="datetime-local" class="form-control"/></div>
+        <button class="btn btn-primary" onclick="postJob()">Submit for Approval</button>
+        <div id="jobMsg" class="mt-2"></div>
+      </div>
+    </div>
+
+    <div id="myJobs" class="tab-pane d-none">
+      <table class="table bg-white">
+        <thead><tr><th>Title</th><th>Status</th><th>Applicants</th><th>Actions</th></tr></thead>
+        <tbody id="jobsTable"></tbody>
+      </table>
+      <div id="applicantsPanel"></div>
+    </div>
   </div>
+
+  <script src="js/api.js"></script>
   <script src="js/auth-guard.js"></script>
+  <script src="js/company.js"></script>
 </body>
 </html>
