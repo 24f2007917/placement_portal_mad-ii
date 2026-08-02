@@ -9,6 +9,7 @@ function showTab(tabId) {
   if (tabId === "companies") loadCompanies();
   if (tabId === "students") loadStudents();
   if (tabId === "jobs") loadJobs();
+  if (tabId === "allApplications") loadAllApplications();
 }
 
 async function loadStats() {
@@ -106,3 +107,19 @@ async function rejectJob(id) {
 }
 
 loadStats();
+
+async function loadAllApplications() {
+  const apps = await apiAuthGet("/admin/applications");
+  const tbody = document.getElementById("allApplicationsTable");
+  tbody.innerHTML = "";
+  apps.forEach(a => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${a.student_name}</td>
+        <td>${a.company_name}</td>
+        <td>${a.job_title}</td>
+        <td><span class="badge bg-secondary text-capitalize">${a.status}</span></td>
+        <td>${new Date(a.application_date).toLocaleDateString()}</td>
+      </tr>`;
+  });
+}

@@ -158,3 +158,45 @@ def reject_job(job_id):
     job.status = "rejected"
     db.session.commit()
     return jsonify({"message": "job position rejected", "job_id": job.id})
+
+
+@admin_bp.route("/applications", methods=["GET"])
+@role_required("admin")
+def list_all_applications():
+    from app.models import Application
+    applications = Application.query.all()
+    result = []
+    for a in applications:
+        result.append({
+            "id": a.id,
+            "student_name": a.student.user.name,
+            "student_email": a.student.user.email,
+            "job_title": a.job.title,
+            "company_name": a.job.company.company_name,
+            "status": a.status,
+            "application_date": a.application_date.isoformat(),
+        })
+    return jsonify(result)
+
+
+@admin_bp.route("/students/<int:student_id>", methods=["GET"])
+@role_required("admin")
+def view_student_detail(student_id):
+    student = Student.query.get_or_404(student_id)
+    return jsonify({
+        "id": student.id,
+        "name": student.user.name,
+        "email": student.user.email,
+        "branch": student.branch,
+        "cgpa": student.cgpa,
+        "year": student.year,
+        "skills": student.skills,
+        "is_active": student.user.is_active,
+        "applications": [
+            {
+                "job_title": a.job.title,
+                "company_name": a.job.company.company_name,
+                "status": a.status,
+            } for a in student.applications
+        ],
+    })
