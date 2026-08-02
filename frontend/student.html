@@ -13,10 +13,45 @@
       <button class="btn btn-sm btn-outline-light ms-2" onclick="logout()">Logout</button>
     </div>
   </nav>
+
   <div class="container mt-4">
-    <h4>Welcome, Student</h4>
-    <p>Student dashboard content will go here in Milestone 5.</p>
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item"><a class="nav-link active" href="#" onclick="showTab('overview')">Overview</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showTab('browse')">Browse Jobs</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showTab('applications')">My Applications</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="showTab('profile')">Profile</a></li>
+    </ul>
+
+    <div id="overview" class="tab-pane">
+      <div class="row g-3" id="statsRow"></div>
+    </div>
+
+    <div id="browse" class="tab-pane d-none">
+      <input id="searchBox" class="form-control mb-3" style="max-width:300px;" placeholder="Search by title" onkeyup="if(event.key==='Enter') browseJobs()" />
+      <div class="row g-3" id="jobsGrid"></div>
+    </div>
+
+    <div id="applications" class="tab-pane d-none">
+      <table class="table bg-white">
+        <thead><tr><th>Company</th><th>Role</th><th>Applied On</th><th>Status</th></tr></thead>
+        <tbody id="applicationsTable"></tbody>
+      </table>
+    </div>
+
+    <div id="profile" class="tab-pane d-none">
+      <div class="card p-4" style="max-width:500px;">
+        <div class="mb-3"><label class="form-label">Branch</label><input id="pf_branch" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">CGPA</label><input id="pf_cgpa" type="number" step="0.01" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">Year</label><input id="pf_year" type="number" class="form-control"/></div>
+        <div class="mb-3"><label class="form-label">Skills</label><input id="pf_skills" class="form-control" placeholder="e.g. Python, SQL"/></div>
+        <button class="btn btn-primary" onclick="saveProfile()">Save</button>
+        <div id="profileMsg" class="mt-2"></div>
+      </div>
+    </div>
   </div>
+
+  <script src="js/api.js"></script>
   <script src="js/auth-guard.js"></script>
+  <script src="js/student.js"></script>
 </body>
 </html>
