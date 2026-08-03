@@ -15,8 +15,8 @@ instance/
 .flaskenv
 
 # Celery
-celerybeat-schedule
 celerybeat.pid
+celerybeat-schedule*
 
 # Uploads (keep folders, ignore contents)
 backend/uploads/resumes/*

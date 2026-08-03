@@ -132,3 +132,15 @@ def dashboard():
         "total_applications": len(student.applications),
         "shortlisted_count": len([a for a in student.applications if a.status in ("shortlisted", "interview", "offer", "placed")]),
     })
+
+
+@student_bp.route("/export-applications", methods=["POST"])
+@role_required("student")
+def export_applications():
+    student = _current_student()
+    if not student:
+        return jsonify({"error": "profile not found"}), 404
+
+    from app.tasks import export_applications_csv
+    task = export_applications_csv.delay(student.id)
+    return jsonify({"message": "export started", "task_id": task.id}), 202

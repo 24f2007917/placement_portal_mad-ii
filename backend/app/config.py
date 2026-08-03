@@ -7,3 +7,6 @@ class Config:
     JWT_SECRET_KEY = "dev-jwt-secret-key"
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, "..", "instance", "ppa.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    CELERY_BROKER_URL = "redis://localhost:6379/0"
+    CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
