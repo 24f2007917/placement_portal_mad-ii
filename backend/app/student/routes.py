@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity
-from app.extensions import db
+from app.extensions import db, cache
 from app.models import Student, JobPosition, Application
 from app.utils import role_required
 from datetime import datetime
@@ -47,6 +47,7 @@ def update_profile():
 
 @student_bp.route("/job-positions", methods=["GET"])
 @role_required("student")
+@cache.cached(timeout=60, query_string=True)
 def browse_jobs():
     """Only approved jobs are visible to students, per the guidelines."""
     search = request.args.get("q", "")

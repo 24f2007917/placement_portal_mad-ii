@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.extensions import db
+from app.extensions import db, cache
 from app.models import User, Company, Student, JobPosition, Application
 from app.utils import role_required
 
@@ -8,6 +8,7 @@ admin_bp = Blueprint("admin", __name__)
 
 @admin_bp.route("/dashboard", methods=["GET"])
 @role_required("admin")
+@cache.cached(timeout=30)
 def dashboard():
     return jsonify({
         "total_students": Student.query.count(),
@@ -62,6 +63,7 @@ def reject_company(company_id):
 
 @admin_bp.route("/companies/search", methods=["GET"])
 @role_required("admin")
+@cache.cached(timeout=60, query_string=True)
 def search_companies():
     q = request.args.get("q", "")
     companies = Company.query.filter(
@@ -91,6 +93,7 @@ def list_students():
 
 @admin_bp.route("/students/search", methods=["GET"])
 @role_required("admin")
+@cache.cached(timeout=60, query_string=True)
 def search_students():
     q = request.args.get("q", "")
     students = Student.query.join(User).filter(
@@ -163,7 +166,6 @@ def reject_job(job_id):
 @admin_bp.route("/applications", methods=["GET"])
 @role_required("admin")
 def list_all_applications():
-    from app.models import Application
     applications = Application.query.all()
     result = []
     for a in applications:
